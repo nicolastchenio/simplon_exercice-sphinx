@@ -1,0 +1,328 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>exercice_sql_alchemy &mdash; projet_bdd  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            projet_bdd
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">projet_bdd</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">exercice_sql_alchemy</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for exercice_sql_alchemy</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Contexte</span>
+<span class="sd">--------</span>
+<span class="sd">On souhaite suivre les performances de différents utilisateurs sur plusieurs modèles d&#39;IA.</span>
+<span class="sd">Pour chaque association entre un utilisateur et un modèle, on doit stocker :</span>
+<span class="sd">- la probabilité de succès obtenue lors du dernier test</span>
+<span class="sd">- la date de l&#39;essai.</span>
+
+<span class="sd">Objectif</span>
+<span class="sd">--------</span>
+<span class="sd">Mettre en place une table d&#39;association complexe (Association Object)</span>
+<span class="sd">et réaliser une insertion de données incluant des métadonnées sur la relation.</span>
+
+<span class="sd">Énoncé</span>
+<span class="sd">------</span>
+<span class="sd">1) Définition du schéma</span>
+<span class="sd">Créer trois classes : User, AIModel et Prediction.</span>
+
+<span class="sd">La classe Prediction sert de table pivot et contient :</span>
+<span class="sd">- une clé étrangère vers User</span>
+<span class="sd">- une clé étrangère vers AIModel</span>
+<span class="sd">- un champ probability de type Float</span>
+<span class="sd">- un champ timestamp de type DateTime avec une valeur par défaut lors de l&#39;insertion</span>
+
+<span class="sd">2) Relations</span>
+<span class="sd">Configurer les relationships dans les trois classes pour permettre</span>
+<span class="sd">une navigation bidirectionnelle.</span>
+
+<span class="sd">3) Manipulation de données</span>
+<span class="sd">Créer :</span>
+<span class="sd">- un utilisateur nommé &quot;DataScientist_01&quot;</span>
+<span class="sd">- un modèle nommé &quot;EfficientNet_V3&quot;</span>
+<span class="sd">- une relation entre les deux avec une probabilité de 0.85</span>
+
+<span class="sd">4) Vérification</span>
+<span class="sd">Afficher le nom de l&#39;utilisateur, le modèle utilisé et la probabilité</span>
+<span class="sd">associée via une requête sur la table Prediction.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_engine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">sessionmaker</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeclarativeBase</span><span class="p">,</span> <span class="n">Mapped</span><span class="p">,</span> <span class="n">mapped_column</span><span class="p">,</span> <span class="n">relationship</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">ForeignKey</span><span class="p">,</span> <span class="n">DateTime</span><span class="p">,</span> <span class="n">select</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Création du moteur de base de données.</span>
+
+<span class="sd">Le moteur permet à SQLAlchemy de communiquer avec la base SQLite</span>
+<span class="sd">et d&#39;afficher les requêtes SQL générées grâce au paramètre echo=True.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s2">&quot;sqlite:///ia_data.db&quot;</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Création du gestionnaire de session.</span>
+
+<span class="sd">SessionLocal servira à ouvrir des sessions de communication</span>
+<span class="sd">avec la base de données afin d&#39;exécuter des transactions.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">SessionLocal</span> <span class="o">=</span> <span class="n">sessionmaker</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Base">
+<a class="viewcode-back" href="../index.html#exercice_sql_alchemy.Base">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Base</span><span class="p">(</span><span class="n">DeclarativeBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Classe de base utilisée par SQLAlchemy pour la déclaration</span>
+<span class="sd">    des modèles ORM. Toutes les tables héritent de cette classe.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="Prediction">
+<a class="viewcode-back" href="../index.html#exercice_sql_alchemy.Prediction">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Prediction</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Table d&#39;association entre User et AIModel.</span>
+
+<span class="sd">    Cette table stocke également des métadonnées sur la relation :</span>
+<span class="sd">    - la probabilité prédite</span>
+<span class="sd">    - la date du test effectué.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;prediction&quot;</span>
+
+    <span class="n">user_id</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span>
+        <span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;user_account.id&quot;</span><span class="p">),</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="n">model_id</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span>
+        <span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;ai_model.id&quot;</span><span class="p">),</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Probabilité de succès calculée par le modèle pour l&#39;utilisateur.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">probability</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Date et heure de la prédiction.</span>
+<span class="sd">    La valeur par défaut correspond au moment de l&#39;insertion.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">timestamp</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span>
+        <span class="n">DateTime</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span>
+    <span class="p">)</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Relation vers l&#39;utilisateur associé à la prédiction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="s2">&quot;User&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span><span class="n">back_populates</span><span class="o">=</span><span class="s2">&quot;predictions&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Relation vers le modèle d&#39;IA utilisé pour la prédiction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="s2">&quot;AIModel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span><span class="n">back_populates</span><span class="o">=</span><span class="s2">&quot;predictions&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="User">
+<a class="viewcode-back" href="../index.html#exercice_sql_alchemy.User">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">User</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Représente un utilisateur réalisant des tests sur des modèles d&#39;IA.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;user_account&quot;</span>
+
+    <span class="nb">id</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Liste des prédictions associées à cet utilisateur.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">predictions</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="s2">&quot;Prediction&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s2">&quot;user&quot;</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="AIModel">
+<a class="viewcode-back" href="../index.html#exercice_sql_alchemy.AIModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AIModel</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Représente un modèle d&#39;intelligence artificielle utilisé</span>
+<span class="sd">    pour effectuer des prédictions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;ai_model&quot;</span>
+
+    <span class="nb">id</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Version ou nom du modèle d&#39;IA.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">version</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;v1.0&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Liste des prédictions réalisées avec ce modèle.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">predictions</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="s2">&quot;Prediction&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s2">&quot;model&quot;</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Création physique des tables dans la base SQLite.</span>
+
+<span class="sd">SQLAlchemy utilise les métadonnées de la classe Base</span>
+<span class="sd">pour générer automatiquement les tables si elles n&#39;existent pas.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Manipulation de données.</span>
+
+<span class="sd">Création :</span>
+<span class="sd">- d&#39;un utilisateur</span>
+<span class="sd">- d&#39;un modèle</span>
+<span class="sd">- d&#39;une prédiction reliant les deux entités.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">with</span> <span class="n">SessionLocal</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+
+    <span class="n">new_user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;DataScientist_01&quot;</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_user</span><span class="p">)</span>
+
+    <span class="n">new_model</span> <span class="o">=</span> <span class="n">AIModel</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s2">&quot;EfficientNet_V3&quot;</span><span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_model</span><span class="p">)</span>
+
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">Prediction</span><span class="p">(</span>
+        <span class="n">probability</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span>
+        <span class="n">user</span><span class="o">=</span><span class="n">new_user</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">new_model</span>
+    <span class="p">)</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">prediction</span><span class="p">)</span>
+
+    <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Requête de vérification.</span>
+
+<span class="sd">Une requête est effectuée sur la table Prediction afin</span>
+<span class="sd">de récupérer les informations liées à l&#39;utilisateur,</span>
+<span class="sd">au modèle et à la probabilité associée.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">with</span> <span class="n">SessionLocal</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+
+    <span class="n">stmt</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">select</span><span class="p">(</span><span class="n">Prediction</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Prediction</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Prediction</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span><span class="o">.</span><span class="n">scalars</span><span class="p">()</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;User: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Probability: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">probability</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----- Fin du programme nicolas tchenio ---------&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, nicolas tchenio.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

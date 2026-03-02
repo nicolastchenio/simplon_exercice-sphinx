@@ -1,0 +1,311 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>projet_bdd documentation &mdash; projet_bdd  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            projet_bdd
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">projet_bdd documentation</a><ul>
+<li><a class="reference internal" href="#module-exercice_sql_alchemy">Documentation du Code</a><ul>
+<li><a class="reference internal" href="#contexte">Contexte</a></li>
+<li><a class="reference internal" href="#objectif">Objectif</a></li>
+<li><a class="reference internal" href="#enonce">Énoncé</a></li>
+<li><a class="reference internal" href="#exercice_sql_alchemy.AIModel"><code class="docutils literal notranslate"><span class="pre">AIModel</span></code></a><ul>
+<li><a class="reference internal" href="#exercice_sql_alchemy.AIModel.id"><code class="docutils literal notranslate"><span class="pre">AIModel.id</span></code></a></li>
+<li><a class="reference internal" href="#exercice_sql_alchemy.AIModel.predictions"><code class="docutils literal notranslate"><span class="pre">AIModel.predictions</span></code></a></li>
+<li><a class="reference internal" href="#exercice_sql_alchemy.AIModel.version"><code class="docutils literal notranslate"><span class="pre">AIModel.version</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercice_sql_alchemy.Base"><code class="docutils literal notranslate"><span class="pre">Base</span></code></a><ul>
+<li><a class="reference internal" href="#exercice_sql_alchemy.Base.metadata"><code class="docutils literal notranslate"><span class="pre">Base.metadata</span></code></a></li>
+<li><a class="reference internal" href="#exercice_sql_alchemy.Base.registry"><code class="docutils literal notranslate"><span class="pre">Base.registry</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercice_sql_alchemy.Prediction"><code class="docutils literal notranslate"><span class="pre">Prediction</span></code></a><ul>
+<li><a class="reference internal" href="#exercice_sql_alchemy.Prediction.model"><code class="docutils literal notranslate"><span class="pre">Prediction.model</span></code></a></li>
+<li><a class="reference internal" href="#exercice_sql_alchemy.Prediction.model_id"><code class="docutils literal notranslate"><span class="pre">Prediction.model_id</span></code></a></li>
+<li><a class="reference internal" href="#exercice_sql_alchemy.Prediction.probability"><code class="docutils literal notranslate"><span class="pre">Prediction.probability</span></code></a></li>
+<li><a class="reference internal" href="#exercice_sql_alchemy.Prediction.timestamp"><code class="docutils literal notranslate"><span class="pre">Prediction.timestamp</span></code></a></li>
+<li><a class="reference internal" href="#exercice_sql_alchemy.Prediction.user"><code class="docutils literal notranslate"><span class="pre">Prediction.user</span></code></a></li>
+<li><a class="reference internal" href="#exercice_sql_alchemy.Prediction.user_id"><code class="docutils literal notranslate"><span class="pre">Prediction.user_id</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercice_sql_alchemy.User"><code class="docutils literal notranslate"><span class="pre">User</span></code></a><ul>
+<li><a class="reference internal" href="#exercice_sql_alchemy.User.id"><code class="docutils literal notranslate"><span class="pre">User.id</span></code></a></li>
+<li><a class="reference internal" href="#exercice_sql_alchemy.User.name"><code class="docutils literal notranslate"><span class="pre">User.name</span></code></a></li>
+<li><a class="reference internal" href="#exercice_sql_alchemy.User.predictions"><code class="docutils literal notranslate"><span class="pre">User.predictions</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercice_sql_alchemy.engine"><code class="docutils literal notranslate"><span class="pre">engine</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">projet_bdd</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">projet_bdd documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="projet-bdd-documentation">
+<h1>projet_bdd documentation<a class="headerlink" href="#projet-bdd-documentation" title="Link to this heading"></a></h1>
+<p>Add your content using <code class="docutils literal notranslate"><span class="pre">reStructuredText</span></code> syntax. See the
+<a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html">reStructuredText</a>
+documentation for details.</p>
+<p>cours simplon :
+https://docs.google.com/presentation/d/1QNUnKzlmdcFb_s8QPqnzvDo5nhVj0pebc0IrvJWacgo/edit?slide=id.p#slide=id.p</p>
+<p>documentation alchemy :
+https://docs.sqlalchemy.org/en/20/orm/</p>
+<div class="toctree-wrapper compound">
+</div>
+<section id="module-exercice_sql_alchemy">
+<span id="documentation-du-code"></span><h2>Documentation du Code<a class="headerlink" href="#module-exercice_sql_alchemy" title="Link to this heading"></a></h2>
+<section id="contexte">
+<h3>Contexte<a class="headerlink" href="#contexte" title="Link to this heading"></a></h3>
+<p>On souhaite suivre les performances de différents utilisateurs sur plusieurs modèles d’IA.
+Pour chaque association entre un utilisateur et un modèle, on doit stocker :
+- la probabilité de succès obtenue lors du dernier test
+- la date de l’essai.</p>
+</section>
+<section id="objectif">
+<h3>Objectif<a class="headerlink" href="#objectif" title="Link to this heading"></a></h3>
+<p>Mettre en place une table d’association complexe (Association Object)
+et réaliser une insertion de données incluant des métadonnées sur la relation.</p>
+</section>
+<section id="enonce">
+<h3>Énoncé<a class="headerlink" href="#enonce" title="Link to this heading"></a></h3>
+<p>1) Définition du schéma
+Créer trois classes : User, AIModel et Prediction.</p>
+<p>La classe Prediction sert de table pivot et contient :
+- une clé étrangère vers User
+- une clé étrangère vers AIModel
+- un champ probability de type Float
+- un champ timestamp de type DateTime avec une valeur par défaut lors de l’insertion</p>
+<p>2) Relations
+Configurer les relationships dans les trois classes pour permettre
+une navigation bidirectionnelle.</p>
+<p>3) Manipulation de données
+Créer :
+- un utilisateur nommé “DataScientist_01”
+- un modèle nommé “EfficientNet_V3”
+- une relation entre les deux avec une probabilité de 0.85</p>
+<p>4) Vérification
+Afficher le nom de l’utilisateur, le modèle utilisé et la probabilité
+associée via une requête sur la table Prediction.</p>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.AIModel">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">exercice_sql_alchemy.</span></span><span class="sig-name descname"><span class="pre">AIModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exercice_sql_alchemy.html#AIModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#exercice_sql_alchemy.AIModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exercice_sql_alchemy.Base" title="exercice_sql_alchemy.Base"><code class="xref py py-class docutils literal notranslate"><span class="pre">Base</span></code></a></p>
+<p>Représente un modèle d’intelligence artificielle utilisé
+pour effectuer des prédictions.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.AIModel.id">
+<span class="sig-name descname"><span class="pre">id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#exercice_sql_alchemy.AIModel.id" title="Link to this definition"></a></dt>
+<dd><p>Version ou nom du modèle d’IA.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.AIModel.predictions">
+<span class="sig-name descname"><span class="pre">predictions</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#exercice_sql_alchemy.Prediction" title="exercice_sql_alchemy.Prediction"><span class="pre">Prediction</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#exercice_sql_alchemy.AIModel.predictions" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.AIModel.version">
+<span class="sig-name descname"><span class="pre">version</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#exercice_sql_alchemy.AIModel.version" title="Link to this definition"></a></dt>
+<dd><p>Liste des prédictions réalisées avec ce modèle.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.Base">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">exercice_sql_alchemy.</span></span><span class="sig-name descname"><span class="pre">Base</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exercice_sql_alchemy.html#Base"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#exercice_sql_alchemy.Base" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DeclarativeBase</span></code></p>
+<p>Classe de base utilisée par SQLAlchemy pour la déclaration
+des modèles ORM. Toutes les tables héritent de cette classe.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.Base.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">MetaData</span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">MetaData()</span></span><a class="headerlink" href="#exercice_sql_alchemy.Base.metadata" title="Link to this definition"></a></dt>
+<dd><p>Refers to the <code class="xref py py-class docutils literal notranslate"><span class="pre">_schema.MetaData</span></code> collection that will be used
+for new <code class="xref py py-class docutils literal notranslate"><span class="pre">_schema.Table</span></code> objects.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><span class="xref std std-ref">orm_declarative_metadata</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.Base.registry">
+<span class="sig-name descname"><span class="pre">registry</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">registry</span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;sqlalchemy.orm.decl_api.registry</span> <span class="pre">object&gt;</span></span><a class="headerlink" href="#exercice_sql_alchemy.Base.registry" title="Link to this definition"></a></dt>
+<dd><p>Refers to the <code class="xref py py-class docutils literal notranslate"><span class="pre">_orm.registry</span></code> in use where new
+<code class="xref py py-class docutils literal notranslate"><span class="pre">_orm.Mapper</span></code> objects will be associated.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.Prediction">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">exercice_sql_alchemy.</span></span><span class="sig-name descname"><span class="pre">Prediction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exercice_sql_alchemy.html#Prediction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#exercice_sql_alchemy.Prediction" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exercice_sql_alchemy.Base" title="exercice_sql_alchemy.Base"><code class="xref py py-class docutils literal notranslate"><span class="pre">Base</span></code></a></p>
+<p>Table d’association entre User et AIModel.</p>
+<p>Cette table stocke également des métadonnées sur la relation :
+- la probabilité prédite
+- la date du test effectué.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.Prediction.model">
+<span class="sig-name descname"><span class="pre">model</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#exercice_sql_alchemy.AIModel" title="exercice_sql_alchemy.AIModel"><span class="pre">AIModel</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#exercice_sql_alchemy.Prediction.model" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.Prediction.model_id">
+<span class="sig-name descname"><span class="pre">model_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#exercice_sql_alchemy.Prediction.model_id" title="Link to this definition"></a></dt>
+<dd><p>Probabilité de succès calculée par le modèle pour l’utilisateur.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.Prediction.probability">
+<span class="sig-name descname"><span class="pre">probability</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#exercice_sql_alchemy.Prediction.probability" title="Link to this definition"></a></dt>
+<dd><p>Date et heure de la prédiction.
+La valeur par défaut correspond au moment de l’insertion.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.Prediction.timestamp">
+<span class="sig-name descname"><span class="pre">timestamp</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#exercice_sql_alchemy.Prediction.timestamp" title="Link to this definition"></a></dt>
+<dd><p>Relation vers l’utilisateur associé à la prédiction.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.Prediction.user">
+<span class="sig-name descname"><span class="pre">user</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#exercice_sql_alchemy.User" title="exercice_sql_alchemy.User"><span class="pre">User</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#exercice_sql_alchemy.Prediction.user" title="Link to this definition"></a></dt>
+<dd><p>Relation vers le modèle d’IA utilisé pour la prédiction.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.Prediction.user_id">
+<span class="sig-name descname"><span class="pre">user_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#exercice_sql_alchemy.Prediction.user_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.User">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">exercice_sql_alchemy.</span></span><span class="sig-name descname"><span class="pre">User</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/exercice_sql_alchemy.html#User"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#exercice_sql_alchemy.User" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#exercice_sql_alchemy.Base" title="exercice_sql_alchemy.Base"><code class="xref py py-class docutils literal notranslate"><span class="pre">Base</span></code></a></p>
+<p>Représente un utilisateur réalisant des tests sur des modèles d’IA.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.User.id">
+<span class="sig-name descname"><span class="pre">id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#exercice_sql_alchemy.User.id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.User.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#exercice_sql_alchemy.User.name" title="Link to this definition"></a></dt>
+<dd><p>Liste des prédictions associées à cet utilisateur.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.User.predictions">
+<span class="sig-name descname"><span class="pre">predictions</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#exercice_sql_alchemy.Prediction" title="exercice_sql_alchemy.Prediction"><span class="pre">Prediction</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#exercice_sql_alchemy.User.predictions" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="exercice_sql_alchemy.engine">
+<span class="sig-prename descclassname"><span class="pre">exercice_sql_alchemy.</span></span><span class="sig-name descname"><span class="pre">engine</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Engine(sqlite:///ia_data.db)</span></span><a class="headerlink" href="#exercice_sql_alchemy.engine" title="Link to this definition"></a></dt>
+<dd><p>Création du gestionnaire de session.</p>
+<p>SessionLocal servira à ouvrir des sessions de communication
+avec la base de données afin d’exécuter des transactions.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, nicolas tchenio.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
