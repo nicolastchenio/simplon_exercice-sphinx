@@ -1,48 +1,43 @@
 name: Deploy Documentation
 
-
 on:
   push:
-    branches: [main] # Se lance à chaque fois que tu push sur main
-
+    branches: [main]
 
 permissions:
   contents: write
   pages: write
   id-token: write
 
-
 jobs:
   build-docs:
-  runs-on: ubuntu-latest
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Install uv
-      uses: astral-sh/setup-uv@v3
-      with:
-        version: "latest"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
 
-    - name: Install dependencies
-      run: uv sync --all-extras # Installe Sphinx et le thème RTD définis dans le fichier toml
+      - name: Install dependencies
+        run: uv sync --all-extras
 
-    - name: Build Sphinx Documentation
-      # On génère le HTML dans le dossier "public"
-      run: uv run sphinx-build docs/source public
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: 'public'
+      - name: Build Sphinx Documentation
+        run: uv run sphinx-build docs/source public
 
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'public'
 
   deploy-docs:
     needs: build-docs
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/
+        uses: actions/deploy-pages@v4
